@@ -1,6 +1,6 @@
 # Discord bot hosting
 
-This project supports the `.deobf` Discord command. Users attach a `.lua`, `.luau`, or text file, and the bot runs the existing detector/dispatcher in `deobf/deob.py`, then sends the result back.
+This project supports the `.deobf` Discord command. Users attach a `.lua`, `.luau`, or `.txt` file, and the bot runs the existing detector/dispatcher in `deobf/deob.py`, including devirtualization when the detected plugin supports it, then sends the result back. If no file is attached, the bot replies with instructions to add one.
 
 ## Environment variable
 
@@ -38,6 +38,13 @@ with the script attached to the same message.
 4. Railway will use `railway.json`/`Procfile` to run `python bot.py` as a worker.
 5. Redeploy and check the deployment logs for `Logged in as ...`.
 
-Railway does not need an HTTP port for this Discord gateway worker. The repository includes the Luau runtime under `deobf/bin`; if it is missing or not executable in the deployed checkout, build it before deploying with `python deobf/build_luau.py --portable` and commit the resulting runtime as appropriate for your deployment workflow.
+Railway does not need an HTTP port for this Discord gateway worker. Railway uses the included `Dockerfile`, which installs the compiler toolchain and builds both required runtime tools (`luau` and `luau-ast`) during deployment. The `luau-ast` binary is required by VM devirtualization.
+
+If deploying without Docker, provision the runtime before starting the bot:
+
+```text
+python deobf/build_luau.py --portable
+python bot.py
+```
 
 Optional variables are `DEOB_MAX_FILE_BYTES` and `DEOB_TIMEOUT_SECONDS`.

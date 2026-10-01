@@ -55,7 +55,7 @@ async def on_ready() -> None:
 @bot.command(name="deobf")
 async def deobf_command(ctx: commands.Context) -> None:
     if not ctx.message.attachments:
-        await ctx.reply("Attach a `.lua`, `.luau`, or text file to `.deobf`.")
+        await ctx.reply("Add a `.lua`, `.luau`, or `.txt` file to the `.deobf` command.")
         return
 
     attachment = ctx.message.attachments[0]
@@ -64,8 +64,8 @@ async def deobf_command(ctx: commands.Context) -> None:
         return
 
     suffix = Path(attachment.filename).suffix.lower()
-    if suffix not in {".lua", ".luau", ".txt", ""}:
-        await ctx.reply("Only `.lua`, `.luau`, or text attachments are supported.")
+    if suffix not in {".lua", ".luau", ".txt"}:
+        await ctx.reply("Attach a `.lua`, `.luau`, or `.txt` file.")
         return
 
     async with ctx.typing():

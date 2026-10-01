@@ -74,16 +74,22 @@ def main():
                 "-DCMAKE_EXE_LINKER_FLAGS=-static " + opt]
     run(cfg)
     run(["cmake", "--build", build, "--config", "Release", "--target", "Luau.Repl.CLI",
-         "--parallel"])
+         "Luau.Ast.CLI", "--parallel"])
     exe = "luau.exe" if os.name == "nt" else "luau"
-    for cand in (os.path.join(build, "Release", exe), os.path.join(build, exe)):
-        if os.path.exists(cand):
-            os.makedirs(BIN, exist_ok=True)
-            shutil.copy2(cand, os.path.join(BIN, exe))
-            print("[+] wrote " + os.path.join(BIN, exe), file=sys.stderr)
-            break
-    else:
-        sys.exit("[!] built binary not found under " + build)
+    ast_exe = "luau-ast.exe" if os.name == "nt" else "luau-ast"
+    for target, name in (("Luau.Repl.CLI", exe), ("Luau.Ast.CLI", ast_exe)):
+        candidates = (
+            os.path.join(build, "Release", name),
+            os.path.join(build, name),
+        )
+        for cand in candidates:
+            if os.path.exists(cand):
+                os.makedirs(BIN, exist_ok=True)
+                shutil.copy2(cand, os.path.join(BIN, name))
+                print("[+] wrote " + os.path.join(BIN, name), file=sys.stderr)
+                break
+        else:
+            sys.exit("[!] %s binary not found under %s" % (target, build))
     if tmp:
         shutil.rmtree(tmp, ignore_errors=True)
 
