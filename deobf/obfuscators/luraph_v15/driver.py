@@ -155,7 +155,7 @@ def devirtualize(job, ppath, dpath, cfg, rerun, chunk_paths=(), live=None):
         with open(ppath, "w", encoding="utf-8", newline="\n") as f:
             f.write(m.group(1))
     header = (job.credit_header() +
-              "-- Local names are inferred from use (the original names are not in the bytecode)\n")
+              "")
     job.write(dpath, header + devirt.finish_text(text) + "\n")
 
 
