@@ -17,6 +17,7 @@ MAX_FILE_BYTES = int(os.getenv("DEOB_MAX_FILE_BYTES", str(10 * 1024 * 1024)))
 TIMEOUT_SECONDS = int(os.getenv("DEOB_TIMEOUT_SECONDS", "300"))
 
 intents = discord.Intents.default()
+intents.message_content = True
 bot = commands.Bot(command_prefix=".", intents=intents)
 
 

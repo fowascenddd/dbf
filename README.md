@@ -10,7 +10,7 @@ The bot token variable is:
 DISCORD_BOT_TOKEN
 ```
 
-Never commit the token. Create the bot in the Discord Developer Portal, enable the **Message Content Intent**, invite it with the `bot` and `applications.commands` scopes, and grant it permission to view channels, read message history, send messages, and attach files.
+Never commit the token. Create the bot in the Discord Developer Portal, then go to **Bot → Privileged Gateway Intents** and enable **Message Content Intent**. The code enables the same intent at runtime. Invite it with the `bot` and `applications.commands` scopes, and grant it permission to view channels, read message history, send messages, and attach files.
 
 ## Local run
 
